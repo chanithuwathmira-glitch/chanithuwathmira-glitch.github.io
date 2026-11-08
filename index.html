@@ -86,6 +86,9 @@ li{margin:7px 0;line-height:1.5}
 .lang-fill.sinhala{background:linear-gradient(90deg,#f59e0b,#ef4444)}
 .lang-fill.english{background:linear-gradient(90deg,#2563eb,#06b6d4)}
 .lang-box.animate .lang-fill{width:var(--w)}
+  #typeSummary{min-height:78px}
+#typeSummary::after{content:'|';color:#172033;font-weight:bold;animation:blink 0.7s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 </style>
 </head>
 <body>
@@ -154,7 +157,7 @@ li{margin:7px 0;line-height:1.5}
 <main class="content">
 <section>
 <h2>Professional Summary</h2>
-<p>A motivated and hardworking A/L Commerce graduate with strong results in Accounting and Business Studies. Selected for the Management Degree Program at the University of Ruhuna. Interested in business, finance, administration and marketing.</p>  
+<p id="typeSummary"></p>  
 </section>
 <section>
 <h2>Education</h2>
@@ -210,6 +213,16 @@ const observer = new IntersectionObserver((entries)=>{
   });
 },{threshold:0.5});
 if(langBox) observer.observe(langBox);
+    const summaryText = "A motivated and hardworking A/L Commerce graduate with strong results in Accounting and Business Studies. Selected for the Management Degree Program at the University of Ruhuna. Interested in business, finance, administration and marketing.";
+const typeEl = document.getElementById('typeSummary');
+let i = 0;
+setTimeout(function typeWriter(){
+  if(i < summaryText.length){
+    typeEl.textContent += summaryText.charAt(i);
+    i++;
+    setTimeout(typeWriter, 17);
+  }
+}, 1500);
 </script>
 </body>
 </html>
