@@ -9,7 +9,19 @@
 body{margin:0;background:#eef1f5;font-family:Arial,Helvetica,sans-serif;color:#1f2937}
 .cv{max-width:960px;margin:28px auto;background:#fff;box-shadow:0 12px 35px rgba(0,0,0,.10);border-radius:14px;overflow:hidden}
 .header{padding:34px 40px;background:#172033;color:#fff;display:flex;align-items:center;gap:28px}
-.photo{width:145px;height:145px;object-fit:cover;object-position:center top;border:4px solid #fff;border-radius:50%;flex:none;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.25);cursor:pointer;transition:transform .2s}
+.photo-wrap{position:relative;width:145px;height:145px;flex:none}
+.photo{width:145px;height:145px;object-fit:cover;object-position:center top;border-radius:50%;background:#fff;cursor:pointer;opacity:0;animation:photoReveal 0.8s ease-out 0.7s forwards;}
+@keyframes photoReveal{
+  from{opacity:0;transform:scale(0.85);}
+  to{opacity:1;transform:scale(1);}
+}
+.photo-frame{position:absolute;top:0;left:0;width:145px;height:145px;border:4px solid #fff;border-radius:50%;box-shadow:0 8px 20px rgba(0,0,0,.25);pointer-events:none;animation:frameRun 1.4s ease-out forwards;}
+@keyframes frameRun{
+  0%{opacity:0;transform:translateX(-280px) scale(0.9);}
+  20%{opacity:1;}
+  70%{transform:translateX(15px) scale(1.05);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
 .photo:hover{transform:scale(1.05)}
 .headtext{flex:1}
 .header h1{margin:0 0 7px;font-size:36px;animation:nameFly 1.4s ease-out forwards}
@@ -18,7 +30,6 @@ body{margin:0;background:#eef1f5;font-family:Arial,Helvetica,sans-serif;color:#1
   70%{opacity:1;transform:translateX(15px) scale(1.05);}
   100%{opacity:1;transform:translateX(0) scale(1);}
 }
-  #split-name .flap.done{background:transparent !important;border-color:transparent !important;box-shadow:none !important;width:auto !important;margin:0 1px !important;}
 .header .role{font-size:16px;color:#d7deea;margin-bottom:18px;opacity:0;animation:roleIn 0.8s ease-out 0.5s forwards}
 @keyframes roleIn{
   from{opacity:0;transform:translateY(12px);}
@@ -68,25 +79,26 @@ li{margin:7px 0;line-height:1.5}
 .view-btn.delay1{animation-delay:1.6s;}
 .view-btn.delay2{animation-delay:1.9s;}
 @media(max-width:700px){ .header{padding:26px 22px} .main{grid-template-columns:1fr} .sidebar{border-bottom:1px solid #e5e7eb} .content{padding:28px 24px} }
-#split-name{display:flex;flex-wrap:wrap;gap:0;font-size:36px;margin:0 0 7px;min-height:44px;animation:none !important;}
-#split-name .flap{position:relative;display:inline-block;width:0.62em;height:1.15em;background:linear-gradient(180deg,#1e293b 0%,#0f172a 50%,#1e293b 51%,#020617 100%);color:#f8fafc;border:1px solid #334155;border-radius:3px;margin:0 1px;text-align:center;line-height:1.15em;font-weight:800;overflow:hidden;box-shadow:0 2px 0 #000, inset 0 1px 0 rgba(255,255,255,.15);}
-#split-name .flap.flipping{animation:flapFlip 0.12s ease-in-out}
-#split-name .flap.space{background:transparent;border-color:transparent;box-shadow:none;width:0.35em}
-@keyframes flapFlip{
-  0%{transform:rotateX(0)}
-  50%{transform:rotateX(-90deg)}
-  100%{transform:rotateX(0)}
-}  
+.lang-box{display:flex;flex-direction:column;gap:16px}
+.lang-top{display:flex;justify-content:space-between;font-size:13px;font-weight:bold;margin-bottom:6px;color:#172033}
+.lang-bar{height:10px;background:#e9edf3;border-radius:20px;overflow:hidden}
+.lang-fill{height:100%;width:0;border-radius:20px;transition:width 1.2s ease-out}
+.lang-fill.sinhala{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.lang-fill.english{background:linear-gradient(90deg,#2563eb,#06b6d4)}
+.lang-box.animate .lang-fill{width:var(--w)}
 </style>
 </head>
 <body>
 <div class="cv">
 <header class="header">
+  <div class="photo-wrap">
   <a href="photo.jpg.png" target="_blank" title="Click to view full photo">
-  <img class="photo" src="photo.jpg.png" alt="Chanithu Liyanage">
-</a>
+    <img class="photo" src="photo.jpg.png" alt="Chanithu Liyanage">
+  </a>
+  <div class="photo-frame"></div>
+</div>
   <div class="headtext">
-    <h1 id="split-name" data-text="Chanithu Liyanage"></h1>
+    <h1>Chanithu Liyanage</h1>
     <div class="role">Management Degree Candidate | Business , Finance & Marketing</div>
     <div class="contact">
       <a href="mailto:chanithuwathmira@gmail.com" style="display:flex;align-items:center;gap:6px;"><img src="Email-logo.png" alt="Email" style="width:16px;height:16px;object-fit:contain;border-radius:3px;background:#fff;padding:1px;"> Email</a>
@@ -127,7 +139,16 @@ li{margin:7px 0;line-height:1.5}
 </section>
 <section>
 <h2>Languages</h2>
-<p class="note">English • Sinhala</p>
+<div class="lang-box">
+  <div class="lang-row">
+    <div class="lang-top"><span>🇱🇰 Sinhala</span><span>Native - 100%</span></div>
+    <div class="lang-bar"><div class="lang-fill sinhala" data-width="100%"> </div></div>
+  </div>
+  <div class="lang-row">
+    <div class="lang-top"><span>🇬🇧 English</span><span>Fluent - 85%</span></div>
+    <div class="lang-bar"><div class="lang-fill english" data-width="85%"> </div></div>
+  </div>
+</div>
 </section>
 </aside>
 <main class="content">
@@ -176,78 +197,19 @@ li{margin:7px 0;line-height:1.5}
 </div>
 </div>
   <script>
-const nameEl = document.getElementById('split-name');
-    let audioCtx = null;
-function playTick(){
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    const t = audioCtx.currentTime;
-    const len = audioCtx.sampleRate * 0.03;
-    const buffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for(let i=0; i<len; i++){ data[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 3); }
-    const noise = audioCtx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 2000 + Math.random()*500;
-    filter.Q.value = 1.5;
-    const g = audioCtx.createGain();
-    g.gain.setValueAtTime(0.2, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
-    noise.connect(filter); filter.connect(g); g.connect(audioCtx.destination);
-    noise.start(t);
-  }catch(e){}
-}
-    document.addEventListener('click', ()=>{ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }, {once:true});
-const finalText = nameEl.dataset.text;
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-function createFlaps(){
-  nameEl.innerHTML = "";
-  [...finalText].forEach((char, i) => {
-    const span = document.createElement('span');
-    span.className = char === " " ? 'flap space' : 'flap';
-    span.textContent = char === " " ? " " : chars[Math.floor(Math.random()*chars.length)];
-    span.dataset.final = char;
-    span.dataset.index = i;
-    nameEl.appendChild(span);
+const langBox = document.querySelector('.lang-box');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      document.querySelectorAll('.lang-fill').forEach(bar=>{
+        bar.style.setProperty('--w', bar.dataset.width);
+      });
+      langBox.classList.add('animate');
+      observer.disconnect();
+    }
   });
-}
-function animateFlaps(){
-  const flaps = document.querySelectorAll('#split-name .flap:not(.space)');
-  flaps.forEach((flap) => {
-    let iterations = 0;
-    const maxIterations = 12 + Math.floor(Math.random()*15) + parseInt(flap.dataset.index)*2;
-    const interval = setInterval(()=>{
-      flap.classList.add('flipping');
-      playTick();
-      flap.textContent = chars[Math.floor(Math.random()*chars.length)];
-      iterations++;
-      if(iterations >= maxIterations){
-        clearInterval(interval);
-        flap.textContent = flap.dataset.final;
-        flap.classList.remove('flipping');
-       flap.className = 'flap done';
-      }
-      setTimeout(()=>flap.classList.remove('flipping'), 80);
-    }, 90);
-  });
-}
-createFlaps();
-let started = false;
-function startShow(){
-  if(started) return;
-  started = true;
-  animateFlaps();
-}
-setTimeout(()=>{
-  if(!started) startShow();
-}, 3000);
-document.addEventListener('mousemove', startShow, {once:true});
-document.addEventListener('touchstart', startShow, {once:true});
-document.addEventListener('scroll', startShow, {once:true});
-document.addEventListener('click', startShow, {once:true});
+},{threshold:0.5});
+if(langBox) observer.observe(langBox);
 </script>
 </body>
 </html>
