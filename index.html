@@ -57,7 +57,7 @@ li{margin:7px 0;line-height:1.5}
 .badge{display:inline-block;background:#e9edf3;padding:6px 8px;border-radius:6px;margin:3px 3px 3px 0;font-size:12px;transition:all 0.25s ease;cursor:pointer;}
 .badge:hover{background:#dbeafe;transform:translateY(-3px) scale(1.05);box-shadow:0 6px 12px rgba(23,32,51,.20);}
 .socials{display:flex;flex-direction:column;gap:9px}
-.socials a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#172033;padding:9px;border-radius:8px;background:#fff;border:1px solid #e5e7eb;transition:all 0.25s ease;cursor:pointer}
+.socials a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#172033;padding:9px;border-radius:8px;background:#fff;border:1px solid #e5e7eb;transition:all 0.25s ease;cursor:pointer;opacity:0;animation:contactFly 1s ease-out forwards;}
 .socials a:hover{background:#dbeafe;color:#172033;transform:translateY(-2px);box-shadow:0 6px 15px rgba(23,32,51,.25)}
 .socials a:hover .icon{background:#fff;color:#172033}
 .icon{width:29px;height:29px;display:grid;place-items:center;border-radius:7px;background:#172033;color:#fff;font-size:12px;font-weight:bold}
@@ -94,6 +94,33 @@ li{margin:7px 0;line-height:1.5}
   #typeSummary{min-height:78px}
 #typeSummary::after{content:'|';color:#172033;font-weight:bold;animation:blink 0.7s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes contactFly{
+  0%{opacity:0;transform:translateX(-200px) scale(0.3);}
+  60%{opacity:1;transform:translateX(12px) scale(1.05);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+.socials a{
+  opacity:0;
+  animation:contactFly 1s ease-out forwards;
+}
+.socials a:nth-child(1){animation-delay:0.8s;}
+.socials a:nth-child(2){animation-delay:1.1s;}
+.socials a:nth-child(3){animation-delay:1.4s;}
+  @keyframes gradeToBlack{
+  0%{ }
+  85%{ }
+  100%{
+    background:transparent !important;
+    color:#000 !important;
+    box-shadow:none !important;
+    padding:0 2px !important;
+    transform:none !important;
+  }
+}
+
+.grade-a, .grade-b, .grade-c{
+  animation: gradeToBlack 0.8s ease-out 10s forwards;
+}
 </style>
 </head>
 <body>
@@ -149,7 +176,7 @@ li{margin:7px 0;line-height:1.5}
 <h2>Languages</h2>
 <div class="lang-box">
   <div class="lang-row">
-    <div class="lang-top"><span>🇱🇰 Sinhala</span><span>Native - 95%</span></div>
+    <div class="lang-top"><span>🇱🇰 Sinhala</span><span>Native - 100%</span></div>
     <div class="lang-bar"><div class="lang-fill sinhala" data-width="100%"> </div></div>
   </div>
   <div class="lang-row">
