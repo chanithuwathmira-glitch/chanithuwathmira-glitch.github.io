@@ -18,6 +18,7 @@ body{margin:0;background:#eef1f5;font-family:Arial,Helvetica,sans-serif;color:#1
   70%{opacity:1;transform:translateX(15px) scale(1.05);}
   100%{opacity:1;transform:translateX(0) scale(1);}
 }
+  #split-name .flap.done{background:transparent !important;border-color:transparent !important;box-shadow:none !important;width:auto !important;margin:0 1px !important;}
 .header .role{font-size:16px;color:#d7deea;margin-bottom:18px;opacity:0;animation:roleIn 0.8s ease-out 0.5s forwards}
 @keyframes roleIn{
   from{opacity:0;transform:translateY(12px);}
@@ -181,17 +182,25 @@ function playTick(){
   try{
     if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if(audioCtx.state === 'suspended') audioCtx.resume();
-    const o = audioCtx.createOscillator();
+    const t = audioCtx.currentTime;
+    const len = audioCtx.sampleRate * 0.03;
+    const buffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for(let i=0; i<len; i++){ data[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 3); }
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 2000 + Math.random()*500;
+    filter.Q.value = 1.5;
     const g = audioCtx.createGain();
-    o.type = 'square';
-    o.frequency.value = 1800 + Math.random()*600;
-    g.gain.setValueAtTime(0.06, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start(); o.stop(audioCtx.currentTime + 0.05);
+    g.gain.setValueAtTime(0.2, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
+    noise.connect(filter); filter.connect(g); g.connect(audioCtx.destination);
+    noise.start(t);
   }catch(e){}
 }
-document.addEventListener('click', ()=>{ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }, {once:true});
+    document.addEventListener('click', ()=>{ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }, {once:true});
 const finalText = nameEl.dataset.text;
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 function createFlaps(){
@@ -219,8 +228,7 @@ function animateFlaps(){
         clearInterval(interval);
         flap.textContent = flap.dataset.final;
         flap.classList.remove('flipping');
-        flap.style.background = '#172033';
-        flap.style.borderColor = 'rgba(255,255,255,.15)';
+       flap.className = 'flap done';
       }
       setTimeout(()=>flap.classList.remove('flipping'), 80);
     }, 90);
