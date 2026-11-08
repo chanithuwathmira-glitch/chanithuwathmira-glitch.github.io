@@ -12,10 +12,25 @@ body{margin:0;background:#eef1f5;font-family:Arial,Helvetica,sans-serif;color:#1
 .photo{width:145px;height:145px;object-fit:cover;object-position:center top;border:4px solid #fff;border-radius:50%;flex:none;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.25);cursor:pointer;transition:transform .2s}
 .photo:hover{transform:scale(1.05)}
 .headtext{flex:1}
-.header h1{margin:0 0 7px;font-size:36px}
-.header .role{font-size:16px;color:#d7deea;margin-bottom:18px}
+.header h1{margin:0 0 7px;font-size:36px;animation:nameFly 1.4s ease-out forwards}
+@keyframes nameFly{
+  0%{opacity:0;transform:translateX(-220px) scale(0.2);}
+  70%{opacity:1;transform:translateX(15px) scale(1.05);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+.header .role{font-size:16px;color:#d7deea;margin-bottom:18px;opacity:0;animation:roleIn 0.8s ease-out 0.5s forwards}
+@keyframes roleIn{
+  from{opacity:0;transform:translateY(12px);}
+  to{opacity:1;transform:translateY(0);}
+}
 .contact{display:flex;flex-wrap:wrap;gap:9px}
-.contact a{color:#fff;text-decoration:none;background:rgba(255,255,255,.10);padding:9px 11px;border-radius:8px;font-size:13px;transition:transform 0.2s ease;}
+.contact a{color:#fff;text-decoration:none;background:rgba(255,255,255,.10);padding:9px 11px;border-radius:8px;font-size:13px;transition:transform 0.2s ease;opacity:0;animation:fadeIn 0.6s ease-out forwards;}
+.contact a:nth-child(1){animation-delay:0.9s;}
+.contact a:nth-child(2){animation-delay:1.1s;}
+.contact a:nth-child(3){animation-delay:1.3s;}
+@keyframes fadeIn{
+  to{opacity:1;}
+}
 .contact a:hover{transform:scale(1.08);}
 .main{display:grid;grid-template-columns:280px 1fr}
 .sidebar{padding:30px 25px;background:#f7f8fa;border-right:1px solid #e5e7eb}
@@ -27,7 +42,8 @@ ul{margin:0;padding-left:19px}
 li{margin:7px 0;line-height:1.5}
 .edu{margin-bottom:21px}
 .edu h3{font-size:16px;margin:0 0 5px}
-.badge{display:inline-block;background:#e9edf3;padding:6px 8px;border-radius:6px;margin:3px 3px 3px 0;font-size:12px}
+.badge{display:inline-block;background:#e9edf3;padding:6px 8px;border-radius:6px;margin:3px 3px 3px 0;font-size:12px;transition:all 0.25s ease;cursor:pointer;}
+.badge:hover{background:#dbeafe;transform:translateY(-3px) scale(1.05);box-shadow:0 6px 12px rgba(23,32,51,.20);}
 .socials{display:flex;flex-direction:column;gap:9px}
 .socials a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#172033;padding:9px;border-radius:8px;background:#fff;border:1px solid #e5e7eb;transition:all 0.25s ease;cursor:pointer}
 .socials a:hover{background:#dbeafe;color:#172033;transform:translateY(-2px);box-shadow:0 6px 15px rgba(23,32,51,.25)}
@@ -35,8 +51,21 @@ li{margin:7px 0;line-height:1.5}
 .icon{width:29px;height:29px;display:grid;place-items:center;border-radius:7px;background:#172033;color:#fff;font-size:12px;font-weight:bold}
 .note{font-size:12px;color:#6b7280}
   .grade-a{color:#15803d;font-weight:bold}
-  .edu-logo{transition:transform 0.25s ease;cursor:pointer}
-.edu-logo:hover{transform:scale(1.18)}
+  .edu-logo{transition:transform 0.25s ease;cursor:pointer;opacity:0;animation:logoFly 1s ease-out forwards;}
+@keyframes logoFly{
+  0%{opacity:0;transform:translateX(180px) scale(0.2);}
+  70%{opacity:1;transform:translateX(-10px) scale(1.08);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+.logo1{animation-delay:2.2s;}
+.logo2{animation-delay:2.5s;}
+.logo3{animation-delay:2.8s;}
+.edu-logo:hover{animation:none;transform:scale(1.18);opacity:1;}
+  .view-btn{display:inline-flex;align-items:center;gap:6px;color:#2563eb !important;background:#eff6ff;border:1px solid #dbeafe;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:bold;text-decoration:none;opacity:0;animation:fadeIn 0.6s ease-out forwards;transition:transform 0.2s ease;}
+.view-btn:visited{color:#2563eb !important;}
+.view-btn:hover{transform:scale(1.05);background:#dbeafe;}
+.view-btn.delay1{animation-delay:1.6s;}
+.view-btn.delay2{animation-delay:1.9s;}
 @media(max-width:700px){ .header{padding:26px 22px} .main{grid-template-columns:1fr} .sidebar{border-bottom:1px solid #e5e7eb} .content{padding:28px 24px} }
 </style>
 </head>
@@ -50,8 +79,8 @@ li{margin:7px 0;line-height:1.5}
     <h1>Chanithu Liyanage</h1>
     <div class="role">Management Degree Candidate | Business , Finance & Marketing</div>
     <div class="contact">
-      <a href="mailto:chanithuwathmira@gmail.com">📧 Email</a>
-      <a href="https://www.linkedin.com/in/chanithu-liyanage-965297433/" target="_blank">💼 LinkedIn</a>
+      <a href="mailto:chanithuwathmira@gmail.com" style="display:flex;align-items:center;gap:6px;"><img src="Email-logo.png" alt="Email" style="width:16px;height:16px;object-fit:contain;border-radius:3px;background:#fff;padding:1px;"> Email</a>
+      <a href="https://www.linkedin.com/in/chanithu-liyanage-965297433/" target="_blank" style="display:flex;align-items:center;gap:6px;"><img src="linkedin-logo.webp" alt="LinkedIn" style="width:16px;height:16px;object-fit:contain;border-radius:3px;background:#fff;padding:1px;"> LinkedIn</a>
       <a href="https://www.google.com/maps/search/?api=1&query=Wattala,+Sri+Lanka" target="_blank">📍 Wattala, Sri Lanka</a>
     </div>
   </div>
@@ -101,21 +130,21 @@ li{margin:7px 0;line-height:1.5}
 <div class="edu">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <h3 style="margin:0;">University of Ruhuna</h3>
-    <img class="edu-logo" src="ruhuna-logo.png" alt="University of Ruhuna" style="width:48px;height:48px;object-fit:contain;flex:none;">
+    <img class="edu-logo logo1" src="ruhuna-logo.png" alt="University of Ruhuna" style="width:48px;height:48px;object-fit:contain;flex:none;">
   </div>
   <p><strong>Management Degree Program</strong></p>
-  <p>Selected for the Management Degree Program. <a href="UGC-selection-certificate.pdf" target="_blank" style="text-decoration: none; margin-left: 8px;" title="View Selection Letter">🔗 View Selection Letter</a></p>
+  <p>Selected for the Management Degree Program. <a class="view-btn delay1" href="UGC-selection-certificate.pdf" target="_blank" title="View Selection Letter">🔗 View Selection Letter</a></p>
 </div>
 <div class="edu">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <h3 style="margin:0;">G.C.E. Advanced Level — 2025 | Commerce Stream</h3>
-    <img class="edu-logo" src="loyola-college-bopitiya-logo.png" alt="Loyola College" style="width:48px;height:48px;object-fit:contain;flex:none;">
+    <img class="edu-logo logo2" src="loyola-college-bopitiya-logo.png" alt="Loyola College" style="width:48px;height:48px;object-fit:contain;flex:none;">
   </div>
-  <p><strong>Loyola College, Bopitiya <a href="AL-Resalt-Sheet.pdf" target="_blank" style="text-decoration: none; margin-left: 8px;" title="View Result Sheet">🔗 View Sheet</a></strong></p><p>Accounting — <span class="grade-a">A</span> | Business Studies — <span class="grade-a">A</span> | Economics — <strong>B</strong></p></div>
+  <p><strong>Loyola College, Bopitiya <a class="view-btn delay2" href="AL-Resalt-Sheet.pdf" target="_blank" title="View Result Sheet">🔗 View Sheet</a></strong></p><p>Accounting — <span class="grade-a">A</span> | Business Studies — <span class="grade-a">A</span> | Economics — <strong>B</strong></p></div>
   <div class="edu">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <h3 style="margin:0;">G.C.E. Ordinary Level — 2022/2023</h3>
-    <img class="edu-logo" src="Archbishops-collage-logo.jpg" alt="Archbishops College" style="width:48px;height:48px;object-fit:contain;flex:none;">
+    <img class="edu-logo logo3" src="Archbishops-collage-logo.jpg" alt="Archbishops College" style="width:48px;height:48px;object-fit:contain;flex:none;">
   </div>
   <p><strong>Nayakakanda Archbishops College</strong></p>
 <p>Mathematics — <span class="grade-a">A</span> &nbsp; Science — <span class="grade-a">A</span> &nbsp; English — <strong>B</strong></p>
