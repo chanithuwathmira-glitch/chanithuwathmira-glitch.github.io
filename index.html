@@ -67,6 +67,15 @@ li{margin:7px 0;line-height:1.5}
 .view-btn.delay1{animation-delay:1.6s;}
 .view-btn.delay2{animation-delay:1.9s;}
 @media(max-width:700px){ .header{padding:26px 22px} .main{grid-template-columns:1fr} .sidebar{border-bottom:1px solid #e5e7eb} .content{padding:28px 24px} }
+#split-name{display:flex;flex-wrap:wrap;gap:0;font-size:36px;margin:0 0 7px;min-height:44px;animation:none !important;}
+#split-name .flap{position:relative;display:inline-block;width:0.62em;height:1.15em;background:linear-gradient(180deg,#1e293b 0%,#0f172a 50%,#1e293b 51%,#020617 100%);color:#f8fafc;border:1px solid #334155;border-radius:3px;margin:0 1px;text-align:center;line-height:1.15em;font-weight:800;overflow:hidden;box-shadow:0 2px 0 #000, inset 0 1px 0 rgba(255,255,255,.15);}
+#split-name .flap.flipping{animation:flapFlip 0.12s ease-in-out}
+#split-name .flap.space{background:transparent;border-color:transparent;box-shadow:none;width:0.35em}
+@keyframes flapFlip{
+  0%{transform:rotateX(0)}
+  50%{transform:rotateX(-90deg)}
+  100%{transform:rotateX(0)}
+}  
 </style>
 </head>
 <body>
@@ -76,7 +85,7 @@ li{margin:7px 0;line-height:1.5}
   <img class="photo" src="photo.jpg.png" alt="Chanithu Liyanage">
 </a>
   <div class="headtext">
-    <h1>Chanithu Liyanage</h1>
+    <h1 id="split-name" data-text="Chanithu Liyanage"></h1>
     <div class="role">Management Degree Candidate | Business , Finance & Marketing</div>
     <div class="contact">
       <a href="mailto:chanithuwathmira@gmail.com" style="display:flex;align-items:center;gap:6px;"><img src="Email-logo.png" alt="Email" style="width:16px;height:16px;object-fit:contain;border-radius:3px;background:#fff;padding:1px;"> Email</a>
@@ -165,5 +174,72 @@ li{margin:7px 0;line-height:1.5}
 </main>
 </div>
 </div>
+  <script>
+const nameEl = document.getElementById('split-name');
+    let audioCtx = null;
+function playTick(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'square';
+    o.frequency.value = 1800 + Math.random()*600;
+    g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.05);
+  }catch(e){}
+}
+document.addEventListener('click', ()=>{ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }, {once:true});
+const finalText = nameEl.dataset.text;
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+function createFlaps(){
+  nameEl.innerHTML = "";
+  [...finalText].forEach((char, i) => {
+    const span = document.createElement('span');
+    span.className = char === " " ? 'flap space' : 'flap';
+    span.textContent = char === " " ? " " : chars[Math.floor(Math.random()*chars.length)];
+    span.dataset.final = char;
+    span.dataset.index = i;
+    nameEl.appendChild(span);
+  });
+}
+function animateFlaps(){
+  const flaps = document.querySelectorAll('#split-name .flap:not(.space)');
+  flaps.forEach((flap) => {
+    let iterations = 0;
+    const maxIterations = 12 + Math.floor(Math.random()*15) + parseInt(flap.dataset.index)*2;
+    const interval = setInterval(()=>{
+      flap.classList.add('flipping');
+      playTick();
+      flap.textContent = chars[Math.floor(Math.random()*chars.length)];
+      iterations++;
+      if(iterations >= maxIterations){
+        clearInterval(interval);
+        flap.textContent = flap.dataset.final;
+        flap.classList.remove('flipping');
+        flap.style.background = '#172033';
+        flap.style.borderColor = 'rgba(255,255,255,.15)';
+      }
+      setTimeout(()=>flap.classList.remove('flipping'), 80);
+    }, 90);
+  });
+}
+createFlaps();
+let started = false;
+function startShow(){
+  if(started) return;
+  started = true;
+  animateFlaps();
+}
+setTimeout(()=>{
+  if(!started) startShow();
+}, 3000);
+document.addEventListener('mousemove', startShow, {once:true});
+document.addEventListener('touchstart', startShow, {once:true});
+document.addEventListener('scroll', startShow, {once:true});
+document.addEventListener('click', startShow, {once:true});
+</script>
 </body>
 </html>
